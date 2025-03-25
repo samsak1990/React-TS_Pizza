@@ -2,65 +2,61 @@ import React, { ChangeEvent, FC, FormEvent, useState } from "react";
 import "./styles.css";
 import Pizza from "../models/Pizza";
 
-interface IAddPizzaFormProps {
-  addPizza: (newPizza: Pizza) => void;
+interface IEditPizzaFormProps {
+  data: Pizza;
+  updatePizza: (newPizza: Pizza) => void;
+  handleToggleEdit: () => void;
 }
 
-interface IInitState {
-  title: string;
-  price: string;
-  img: string;
-}
-
-const initState: IInitState = {
-  title: "",
-  price: "",
-  img: "",
-};
-
-const AddPizzaForm: FC<IAddPizzaFormProps> = ({ addPizza }) => {
-  const [newPizza, setNewPizza] = useState<IInitState>(initState);
+const EditPizzaForm: FC<IEditPizzaFormProps> = ({
+  data,
+  updatePizza,
+  handleToggleEdit,
+}) => {
+  const [editPizza, setEditPizza] = useState<Pizza>(data);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setNewPizza({ ...newPizza, [name]: value });
+    setEditPizza({ ...editPizza, [name]: value });
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { title, price, img } = newPizza;
+    const { title, price, img } = editPizza;
     if (title && price && img) {
-      addPizza({ title, img, price: +price, id: Date.now() });
-      setNewPizza(initState);
+      updatePizza(editPizza);
+      handleToggleEdit();
     }
   };
 
+  console.log("edit pizza >>>", editPizza);
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="edit-form">
       <input
         type="text"
         name="title"
         placeholder="Название"
         onChange={handleChange}
-        value={newPizza.title}
+        value={editPizza.title}
       />
       <input
         type="text"
         name="price"
         placeholder="Стоимость"
         onChange={handleChange}
-        value={newPizza.price}
+        value={editPizza.price}
       />
       <input
         type="text"
         name="img"
         placeholder="Изображение"
         onChange={handleChange}
-        value={newPizza.img}
+        value={editPizza.img}
       />
-      <button type="submit">+ Добавить в меню</button>
+      <button type="submit">Подтвердить</button>
     </form>
   );
 };
 
-export default AddPizzaForm;
+export default EditPizzaForm;

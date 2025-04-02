@@ -1,39 +1,17 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import "./App.css";
-import AddPizzaForm from "./components/AddPizzaForm";
-import DisplayPizza from "./components/DisplayPizza";
-import Pizza from "./models/Pizza";
+import {Route, Routes} from 'react-router-dom'
+import HomePage from "./pages/HomePage";
+import PizzaPage from "./pages/PizzaPage";
 
 const App: FC = () => {
-  const [pizzasList, setPizzasList] = useState<Pizza[]>([]);
-
-  const addPizza = (newPizza: Pizza) => {
-    setPizzasList([...pizzasList, newPizza]);
-  };
-
-  const updatePizza = (newPizza: Pizza) => {
-    setPizzasList(
-      pizzasList.map((pizza) => (pizza.id === newPizza.id ? newPizza : pizza))
-    );
-  };
-
-  const deletePizza = (id: number) => {
-    const newListPizzas = pizzasList.filter((pizza) => pizza.id !== id);
-    setPizzasList(newListPizzas);
-  };
-
-  console.log(pizzasList);
-
-  return (
+    return (
     <div className="App">
       <div className="wrap">
-        <span className="heading">Наша пиццерия</span>
-        <AddPizzaForm addPizza={addPizza}></AddPizzaForm>
-        <DisplayPizza
-          pizzasList={pizzasList}
-          updatePizza={updatePizza}
-          deletePizza={deletePizza}
-        />
+        <Routes>
+          <Route path='/' element={<HomePage/>} />
+          <Route path='/pizza/:id' element={<PizzaPage />} />
+        </Routes>
       </div>
     </div>
   );

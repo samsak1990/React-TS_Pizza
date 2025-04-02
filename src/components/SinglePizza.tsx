@@ -2,6 +2,7 @@ import React, { FC, useState } from "react";
 import { Edit, Trash2 } from "react-feather";
 import Pizza from "../models/Pizza";
 import EditPizzaForm from "./EditPizzaForm";
+import {Link} from 'react-router-dom'
 
 interface ISinglePizzaProps {
   pizza: Pizza;
@@ -23,7 +24,9 @@ const SinglePizza: FC<ISinglePizzaProps> = ({
   return (
     <div className="pizza">
       <img src={`../images/${pizza.img}`} alt={pizza.title} />
-      <h2>{pizza.title}</h2>
+      <h2>
+        <Link to={`/pizza/${pizza.id}`}>{pizza.title}</Link>
+      </h2>
       <span>{pizza.price} руб.</span>
 
       <div className="pizza-controls">
